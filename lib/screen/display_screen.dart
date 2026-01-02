@@ -15,8 +15,8 @@ class Displayscreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: .start,
-          crossAxisAlignment: .start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('First Name: ${user.fname}'),
             SizedBox(height: 20,),

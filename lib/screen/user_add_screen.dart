@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:listapp/models/user_model.dart';
-import 'package:listapp/services/firebase_service.dart';
+import 'package:listapp/repo/user_repository.dart';
+//import 'package:listapp/services/firebase_service.dart';
 
 class UserAddScreen extends StatefulWidget {
   final UserModel? user;
@@ -11,7 +12,8 @@ class UserAddScreen extends StatefulWidget {
 }
 
 class _UserAddScreenState extends State<UserAddScreen> {
-  final service = Firebaseservice();
+  //final service = Firebaseservice();
+  final repo = UserRepository();
   bool isvalidate = false;
   final TextEditingController firstnamecontroller = TextEditingController();
   final TextEditingController lastnamecontroller = TextEditingController();
@@ -121,15 +123,17 @@ class _UserAddScreenState extends State<UserAddScreen> {
                       district: districtnamecontroller.text,
                       state: statenamecontroller.text,
                       country: countrynamecontroller.text,
+                      updatedAt: DateTime.now().millisecondsSinceEpoch,
+                      isSynced: 0,
+                      isDeleted: 0
                     );
                     
-                    if(widget.user == null) {
-                      await service.addUser(newUserModel);
-                    }else{
-                      await service.editUser(newUserModel);
+                    await repo.addOrUpdateUser(newUserModel);
+                    
+                    if(mounted){
+                      Navigator.pop(context, newUserModel);
                     }
-
-                    Navigator.pop(context, newUserModel);
+                    
                   }
                 },
                 style: TextButton.styleFrom(
